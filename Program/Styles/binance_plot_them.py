@@ -1,0 +1,52 @@
+import pyqtgraph as pg
+from PySide2.QtGui import *
+
+def binance_charts_theme():
+    # Background
+    pg.setConfigOption("background", "#0d0f1a")
+    
+    # النصوص والمحاور (رمادي مزرق فاتح)
+    pg.setConfigOption("foreground", "#AAB0C6")
+    
+    # لون الشبكة (كحلي أفتح شوي من الخلفية)
+    pg.setConfigOption("antialias", True) 
+
+
+class GlobalCursor():
+    def set_label_pos2(widget, value_v, value_diciamles=2):
+        widget.setHtml(
+            f"<div style='color:#EAECEF;padding:2px 6px;"
+            f"border-radius:3px;font-size:12px;'>"
+            f"{value_v:.{value_diciamles}f}</div>"
+        )
+        widget.fill = QBrush(QColor("#1f2640"))  # كحلي غامق بدال الرمادي
+        widget.update()
+
+    def set_label_pos(widget, date_str, value_n, value_v, value_diciamles=2):
+        widget.setHtml(
+            "<div style='background-color:#1f2640;"
+            "color:#EAECEF;border-radius:6px;"
+            "padding:4px 8px;font-size:12px;'><br>"
+            f"&nbsp;&nbsp;&nbsp;Date: <span style='color:#6c63ff'>{date_str}</span>&nbsp;&nbsp;&nbsp;<br>"
+            f"&nbsp;&nbsp;&nbsp;{value_n}: {value_v:.{value_diciamles}f}&nbsp;&nbsp;&nbsp;"
+            "<br></div>"
+        )
+        widget.update() 
+
+
+class CandalsChart():
+    def set_candals_color():
+        # Candles Colors (متوافقة مع الأيقونة)
+        candle_up = QColor("#0ECB81")   # أزرق صاعد
+        candle_down = QColor("#F6465D") # بنفسجي هابط
+        return {"candle_up": candle_up, "candle_down": candle_down}
+    
+    def set_price_label(widget, price, up=True, price_diciamles=2):
+        color = "#0ECB81" if up else "#F6465D"   # أزرق/بنفسجي بدال الأخضر/أحمر
+        widget.fill = QBrush(QColor(color))
+        widget.setHtml(
+            f"<div style='color:#fff;padding:2px 6px;border-radius:3px;'>"
+            f"{price:.{price_diciamles}f}</div>"
+        )
+        widget.update()
+

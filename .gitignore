@@ -1,0 +1,6 @@
+**/.env
+**/logs
+**/AppData 
+**/__pycache__
+**/test
+**/.py

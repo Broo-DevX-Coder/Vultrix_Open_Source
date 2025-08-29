@@ -1,0 +1,6 @@
+USER_NAME = ''
+USER_API = ''
+USER_SECREAT = ''
+USER_UID = ''
+USER_ATYPE = ''
+USER_ID = ''
