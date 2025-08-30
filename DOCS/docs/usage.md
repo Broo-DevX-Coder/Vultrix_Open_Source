@@ -123,4 +123,4 @@ You are now ready to:
 * Analyze crypto markets
 * Experiment with indicators
 
-For developer details, see [Project Structure](./project-structure.md)
+For developer details, see [Project Structure](../developers_docs/project-structure.md)
