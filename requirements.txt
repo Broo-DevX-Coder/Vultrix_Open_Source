@@ -1,0 +1,10 @@
+PySide2
+qasync
+pyqtgraph
+numpy
+pandas
+matplotlib
+httpx
+aiohttp
+websockets
+pycryptodome
