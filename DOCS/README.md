@@ -26,18 +26,14 @@ Users are responsible for ensuring compliance with **local laws**, **exchange po
 
 ## 📚 Documentation
 
-- **Public**
+
   - [Contributing](./CONTRIBUTING.md)
   - [Licence](../LICENSE)
   - [Islamic Licence](./LICENCE_ISLAMIC.md)
   - [Roadmap](./ROADMAP.md)
-
-- Devloppers
-  - [Introduction](./docs/introduction.md)
   - [Installation](./docs/installation.md)
   - [Usage Guide](./docs/usage.md)
   - [Indicators](./docs/indicators.md)
-  - [Roadmap](./docs/roadmap.md)
 
 for More Info, view our wiki: [Wiki Home](https://github.com/Broo-DevX-Coder/Vultrix_Open_Source/wiki)
 
