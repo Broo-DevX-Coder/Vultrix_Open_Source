@@ -16,6 +16,7 @@ Users are responsible for ensuring compliance with **local laws**, **exchange po
 ## Project Info
 - **Name**: Vultrix  
 - **Status**: 🚧 In Development  
+- **Version**: 0.1.0.mvp
 - **Description**:  
   > Vultrix is a charting and indicator platform for cryptocurrency markets.  
   > Unlike traditional tools like *MetaTrader* or *TradingView*, it is a standalone application offering features such as **Volume Maps** and **Depth of Market (DOM)** visualization.
