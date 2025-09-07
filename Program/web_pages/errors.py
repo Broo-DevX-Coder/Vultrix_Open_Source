@@ -22,4 +22,3 @@ def connection_error(x):
 def unknown_error(x,d):
     logging.critical(f"{x} Unknown Error -> {d}")
     pup_message("Unknown Error","❌ Unknown error\nPlease TryAgain",None,"error")
-    print(d)

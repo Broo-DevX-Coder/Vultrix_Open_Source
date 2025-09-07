@@ -15,7 +15,7 @@ import pyqtgraph as pg
 import websockets
 
 from PySide2 import QtCore, QtGui
-from PySide2.QtWidgets import QGraphicsRectItem
+from PySide2.QtWidgets import QGraphicsRectItem,QLabel,QSpinBox,QComboBox,QPushButton,QListWidget
 
 # ===== Utils =====
 from .utils import (
@@ -27,7 +27,7 @@ from .utils import (
     GlobalCursor,
     CandalsChart
 )
-from .utils import TIME_FRAMES_INTERVALS
+from .utils import TIME_FRAMES_INTERVALS,qt_color_names,MAINCHART_ITEMS
 from web_pages import error_403,error_429,error_418,connection_error
 import logging
 
@@ -111,8 +111,6 @@ class SimpleCandelsChart(pg.GraphicsLayoutWidget):
         timer = QtCore.QTimer()
         timer.timeout.connect(lambda: self.widgets["top_label"].setPos(self.VB.viewRect().left(), self.VB.viewRect().bottom()))
         timer.start(50)
-
-        
 
         # Top label HTML formatter
         if self.MOVING_AVERAGE[2]:
@@ -360,7 +358,9 @@ class SimpleCandelsChart(pg.GraphicsLayoutWidget):
     # ======== Infrastructure defs ==============
 
     # Reset ChowCharts When the olugin seted
+    @staticmethod
     def reset_showchart_body(parent):
+        parent.time_frame["label"].setText("Time frame")
         parent.setFixedSize(300, 533)
         parent.submit_button.setGeometry(5, 493, 290, 35)
         for i in ["combo_list","item_list","value_num","color_list","max_candals"]:
@@ -389,6 +389,7 @@ class SimpleCandelsChart(pg.GraphicsLayoutWidget):
         parent.time_frame['is_correct'] = True
 
     # Creat the shart wen Add Button in show shart pushed
+    @staticmethod
     def submit_data(parent,chart):
         parent.time_frame_value = parent.time_frame["main_list"].currentText()
         max_candals = parent.mainchart_items["max_candals"].value()
@@ -403,6 +404,116 @@ class SimpleCandelsChart(pg.GraphicsLayoutWidget):
         w = chart(symbol=parent.symbol_value,time_frame=parent.time_frame_value,moving_average=_mavs,max_candals=max_candals)
         parent.windows.append(w)
         w.run()
+
+    @staticmethod
+    def set_chart_vars(parent):
+        parent.mainchart_items_value = {}
+        parent.mainchart_items = {"curves":{"moving_average":{}},"max_candals_correct":True}
+        # Price Chart curves (moving_average)
+        parent.mainchart_items["labels"] = {
+                "combo_list":QLabel("Curve",parent),
+                "value_num":QLabel("Curve Value",parent),
+                "item_list":QLabel("Curve...",parent),
+                "color_list":QLabel("Curve Color",parent),
+                "max_candals":QLabel("Max Candals",parent)
+            }
+        parent.mainchart_items["max_candals"] = QSpinBox(parent)
+        parent.mainchart_items["combo_list"] = QComboBox(parent)
+        parent.mainchart_items["color_list"] = QComboBox(parent)
+        parent.mainchart_items["value_num"] = QSpinBox(parent)
+        parent.mainchart_items["add"] = QPushButton("Add",parent)
+        parent.mainchart_items["item_list"] = QListWidget(parent)
+
+        for i in ["combo_list","item_list","value_num","color_list","max_candals"]:
+            parent.mainchart_items[i].hide()
+            parent.mainchart_items["labels"][i].hide()
+        parent.mainchart_items["add"].hide()
+
+        parent.mainchart_items["is_correct"] = [False,True]
+        parent.mainchart_items["max_candals"].setRange(100,1000)
+        for i,m in MAINCHART_ITEMS:
+            parent.mainchart_items["combo_list"].addItem(i,m)
+
+        parent.mainchart_items["color_list"].addItems(qt_color_names)
+        SimpleCandelsChart._e_(parent)
+
+        parent.mainchart_items["value_num"].valueChanged.connect(lambda _: SimpleCandelsChart.on_write_main_chart_item_value(parent,text=_))
+        parent.mainchart_items["max_candals"].valueChanged.connect(lambda _: SimpleCandelsChart.on_write_main_chart_max_candals(parent,text=_))
+        parent.mainchart_items["add"].clicked.connect(lambda : SimpleCandelsChart.on_ad_curve(parent))
+        parent.mainchart_items["item_list"].itemDoubleClicked.connect(lambda _: SimpleCandelsChart.remove_curve(parent,item=_))
+
+    @staticmethod
+    def _e_(parent):
+        for i in parent.mainchart_items["is_correct"]: 
+            if i == False: 
+                parent.mainchart_items["add"].setEnabled(False)
+                return
+        parent.mainchart_items["add"].setEnabled(True)
+
+    @staticmethod
+    def _ee_(parent):
+        if parent.symbol_input['is_correct'] == False or parent.shart_sellect['is_correct'] == False or parent.time_frame['is_correct'] == False or parent.mainchart_items["max_candals_correct"] == False:
+            parent._e_(False)
+        else:
+            parent._e_(True)
+        
+
+    # On write main_chart_item value
+    @staticmethod
+    def on_write_main_chart_item_value(parent,text):
+        if text not in [None,0,'',""]:
+            parent.time_frame_value = int(text)
+            parent.mainchart_items["is_correct"][0] = True
+        else:
+            parent.mainchart_items["is_correct"][0] = False
+        SimpleCandelsChart._e_(parent)
+            
+    # On write main_chart_item value
+    @staticmethod
+    def on_write_main_chart_max_candals(parent,text):
+        if text not in [None,0,'',""]:
+            parent.time_frame_value = int(text)
+            parent.mainchart_items["is_correct"][1] = True
+        else:
+            parent.mainchart_items["is_correct"][1] = False
+        SimpleCandelsChart._ee_(parent)
+
+    # On Push add curve in main_chart button 
+    @staticmethod
+    def on_ad_curve(parent):
+        curve = parent.mainchart_items["combo_list"].itemData(parent.mainchart_items["combo_list"].currentIndex())
+        color = parent.mainchart_items["color_list"].currentText()
+        value = parent.mainchart_items["value_num"].value()
+
+        parent.mainchart_items["curves"][curve][f"{curve} {value} {color}"] = [value,color]
+        parent.mainchart_items["item_list"].addItem(f"{curve} {value} {color}")
+
+        parent.mainchart_items["item_list"].update()
+
+    @staticmethod
+    def remove_curve(parent, item):
+        # Get the text of the item (the key you stored: "curve:value:color")
+        item_text = item.text()
+
+        # Split to get curve name, value, color
+        try:
+            curve_name, value, color = item_text.split(" ")
+            value = int(value)
+        except ValueError:
+            # fallback if format is unexpected
+            curve_name = item_text
+            value = None
+            color = None
+
+        # Remove from your internal dictionary if exists
+        if curve_name in parent.mainchart_items["curves"]:
+            key_to_remove = f"{curve_name} {value} {color}"
+            del parent.mainchart_items["curves"][curve_name][key_to_remove]
+
+        # Remove from the QListWidget
+        row = parent.mainchart_items["item_list"].row(item)
+        removed_item = parent.mainchart_items["item_list"].takeItem(row)
+        del removed_item
 
     # ---------------------------------------------
     

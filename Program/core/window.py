@@ -20,7 +20,7 @@ from Data.user_data import *
 
 MW_POPUP_WIDOWS["Charts"] = {"m":ChowSharts,"ft?":True,"align":"rt"}
 
-class MainWindow(QMainWindow): # Samy@1234567
+class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
         size = [1100,800]
@@ -159,7 +159,7 @@ class MainWindow(QMainWindow): # Samy@1234567
 
     # ============= pooling =================
     async def update_user_data_on_ui(self):
-        await asyncio.sleep(2)
+        await asyncio.sleep(5)
         self.stcked_windows["Home"].update_user_info(USER_NAME,USER_UID,USER_ATYPE)
         with httpx.Client(timeout=30) as session:
             while True:

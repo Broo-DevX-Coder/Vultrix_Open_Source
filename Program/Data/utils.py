@@ -73,20 +73,6 @@ for p,n in css_files.items():
     path = os.path.join(ASSETS_CSS,p)
     ensure_icon(path,n)
 
-
-svg_icons = {}
-
-
-
-
-
-
-
-
-
-
-
-
 def set_user_data(data:dict):
     user_data.USER_NAME = data.get("user_name")
     user_data.USER_API = data.get("api-key")

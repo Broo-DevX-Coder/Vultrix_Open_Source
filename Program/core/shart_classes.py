@@ -1,5 +1,5 @@
-from trading_charts import SimpleCandelsChart
+from trading_charts import SimpleCandelsChart,OrderBook
 CHARTS_CLASSES = {
         "candals_shart":SimpleCandelsChart,
-        #"or_tr_imbalance":ImbalanceChart,
+        "order_book":OrderBook
     }

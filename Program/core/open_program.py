@@ -211,7 +211,7 @@ class OpenProgram(QWidget):
             accont_info_api = get_account_info(data[1].get("api-key"),data[1].get("api-secreat"))
             if accont_info_api[0] == False:
                 if accont_info_api[1] == "INVALID_API_KEY":
-                    pup_message("API Key Error","The saved API Key invalide or has not the correct permitions\nPlease try to reset your user data with correct info\nPermitions neded: Any IP Adress + Read Only",None,"error")
+                    pup_message("API Key Error","The saved API Key invalide or has not the correct permitions\nPlease try to reset your user data with correct info\nApi type: HMAC-SHA256\nPermitions neded: Any IP Adress + Read Only",None,"error")
                 else:
                     pup_message("API Secreat Error","The saved secreat key is not acceptable with his API Key\nPlease try to reset your user data with correct info",None,"error")
                 return
@@ -245,7 +245,7 @@ class OpenProgram(QWidget):
             return
         elif accont_info_api[0] == False:
             if accont_info_api[1] == "INVALID_API_KEY":
-                pup_message("API Key Error","This API Key invalide or has not the correct permitions\nPermitions neded: Any IP Adress + Read Only",None,"error")
+                pup_message("API Key Error","This API Key invalide or has not the correct permitions\nApi type: HMAC-SHA256\nPermitions neded: Any IP Adress + Read Only",None,"error")
             else:
                 pup_message("API Secreat Error","The secreat key is not acceptable with this API Key",None,"error")
             return

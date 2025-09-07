@@ -13,22 +13,24 @@ def binance_charts_theme():
 
 
 class GlobalCursor():
+    LABELS_BG = "#1f2640"
     def set_label_pos2(widget, value_v, value_diciamles=2):
         widget.setHtml(
             f"<div style='color:#EAECEF;padding:2px 6px;"
             f"border-radius:3px;font-size:12px;'>"
             f"{value_v:.{value_diciamles}f}</div>"
         )
-        widget.fill = QBrush(QColor("#1f2640"))  # كحلي غامق بدال الرمادي
+        widget.fill = QBrush(QColor("#1f2640"))
         widget.update()
 
-    def set_label_pos(widget, date_str, value_n, value_v, value_diciamles=2):
+    def set_label_pos(widget, date_str, value_n, value_v, value_diciamles=2, auther=None):
         widget.setHtml(
             "<div style='background-color:#1f2640;"
             "color:#EAECEF;border-radius:6px;"
             "padding:4px 8px;font-size:12px;'><br>"
             f"&nbsp;&nbsp;&nbsp;Date: <span style='color:#6c63ff'>{date_str}</span>&nbsp;&nbsp;&nbsp;<br>"
             f"&nbsp;&nbsp;&nbsp;{value_n}: {value_v:.{value_diciamles}f}&nbsp;&nbsp;&nbsp;"
+            f"{auther if auther != None else '' }"
             "<br></div>"
         )
         widget.update() 

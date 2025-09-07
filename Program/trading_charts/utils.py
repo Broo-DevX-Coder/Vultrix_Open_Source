@@ -2,7 +2,8 @@ from datetime import datetime
 import re
 import pyqtgraph as pg
 from Styles import QSS_BINANCE_STYLE,binance_charts_theme,GlobalCursor,CandalsChart
-from core.utils import TIME_FRAMES_INTERVALS
+from core.utils import TIME_FRAMES_INTERVALS,qt_color_names,MAINCHART_ITEMS
+from web_pages.errors import * 
 
 # Convert timestamp (milliseconds) to human-readable date string
 DATE = lambda v: datetime.fromtimestamp(v / 1000).strftime("%Y-%m-%d %H:%M:%S")

@@ -16,7 +16,7 @@ TIME_FRAMES_INTERVALS = [
 
 CHARTS = [
         ("Candals Shart", "candals_shart"),
-        #("Order Book And Real Time Imbalance", "or_tr_imbalance"),
+        ("Order Book ", "order_book"),
 ]
 
 MAINCHART_ITEMS = [
